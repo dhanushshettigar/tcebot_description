@@ -15,7 +15,7 @@
       <geometry>
         <mesh filename="package://tcebot_description/meshes/base_link.stl" scale="0.001 0.001 0.001" />
       </geometry>
-      <material name="silver" />
+      <material name="light_blue" />
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -37,7 +37,7 @@
         <mesh filename="package://tcebot_description/meshes/left_wheel.stl"
           scale="0.001 0.001 0.001" />
       </geometry>
-      <material name="black" />
+      <material name="dark_grey" />
     </visual>
     <collision>
       <origin xyz="0.045157 0.069525 -0.021641" rpy="0 0 0" />
@@ -60,7 +60,7 @@
         <mesh filename="package://tcebot_description/meshes/right_wheel.stl"
           scale="0.001 0.001 0.001" />
       </geometry>
-      <material name="black" />
+      <material name="dark_grey" />
     </visual>
     <collision>
       <origin xyz="-0.030621 0.069525 -0.021641" rpy="0 0 0" />
@@ -82,7 +82,7 @@
       <geometry>
         <mesh filename="package://tcebot_description/meshes/lidar.stl" scale="0.001 0.001 0.001" />
       </geometry>
-      <material name="light_blue" />
+      <material name="dark_grey" />
     </visual>
     <collision>
       <origin xyz="0.024795 0.052459 -0.139659" rpy="0 0 0" />
