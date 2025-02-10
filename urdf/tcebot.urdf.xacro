@@ -71,6 +71,27 @@
     </collision>
   </link>
 
+  <link name="caster">
+    <inertial>
+      <origin xyz="8.760371028013886e-06 -0.015006453046049681 -0.008779771570198129" rpy="0 0 0"/>
+      <mass value="0.02176904247885505"/>
+      <inertia ixx="1e-06" iyy="1e-06" izz="1e-06" ixy="-0.0" iyz="0.0" ixz="-0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.008206 -0.049407 -0.007659" rpy="0 0 0"/>
+      <geometry>
+       <mesh filename="package://tcebot_description/meshes/caster.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="silver"/>
+    </visual>
+    <collision>
+      <origin xyz="0.008206 -0.049407 -0.007659" rpy="0 0 0"/>
+      <geometry>
+       <mesh filename="package://tcebot_description/meshes/caster.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+  </collision>
+  </link>
+
   <link name="lidar">
     <inertial>
       <origin xyz="0.01253399240967995 0.034954225501993154 0.031144245322156733" rpy="0 0 0" />
@@ -138,6 +159,14 @@
     <origin xyz="-0.008 -0.091056 0.138159" rpy="0 0 0" />
     <parent link="base_link" />
     <child link="camera" />
+  </joint>
+
+  <joint name="rigid3" type="fixed">
+    <origin xyz="-0.008206 0.049407 0.007659" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="caster"/>
+    <axis xyz="0 0 1" />
+    <dynamics damping="0.01" friction="0.0"/>
   </joint>
 
 </robot>
