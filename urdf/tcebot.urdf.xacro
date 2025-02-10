@@ -5,34 +5,36 @@
 
   <link name="base_link">
     <inertial>
-      <origin xyz="-0.008564396962539625 -0.014118727809814683 0.06971558782741398" rpy="0 0 0" />
-      <mass value="2.6923940926278465" />
-      <inertia ixx="0.009628" iyy="0.007653" izz="0.007608" ixy="-9e-06" iyz="0.000253"
-        ixz="-1.3e-05" />
+      <origin xyz="-0.008567887520232373 -0.013246764867535883 0.07017948094061893" rpy="0 0 0" />
+      <mass value="2.67513576192234" />
+      <inertia ixx="0.009344" iyy="0.007563" izz="0.007414" ixy="-1e-05" iyz="0.000344"
+        ixz="-1.4e-05" />
     </inertial>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://tcebot_description/meshes/base_link.stl" scale="0.001 0.001 0.001" />
+        <mesh filename="package://tcebot_description/meshes/base_link.stl"
+          scale="0.001 0.001 0.001" />
       </geometry>
       <material name="light_blue" />
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://tcebot_description/meshes/base_link.stl" scale="0.001 0.001 0.001" />
+        <mesh filename="package://tcebot_description/meshes/base_link.stl"
+          scale="0.001 0.001 0.001" />
       </geometry>
     </collision>
   </link>
 
-  <link name="left_wheel">
+  <link name="left_wheel_link">
     <inertial>
-      <origin xyz="-0.015689995537150135 1.9354447389208218e-07 -1.8592013856927325e-07" rpy="0 0 0" />
+      <origin xyz="-0.015689995537150135 1.9354447388514329e-07 -1.8592013858315104e-07" rpy="0 0 0" />
       <mass value="0.23341302374486034" />
       <inertia ixx="0.00016" iyy="9.6e-05" izz="9.6e-05" ixy="0.0" iyz="-0.0" ixz="0.0" />
     </inertial>
     <visual>
-      <origin xyz="0.045157 0.069525 -0.021641" rpy="0 0 0" />
+      <origin xyz="0.045157 0.054525 -0.021641" rpy="0 0 0" />
       <geometry>
         <mesh filename="package://tcebot_description/meshes/left_wheel.stl"
           scale="0.001 0.001 0.001" />
@@ -40,7 +42,7 @@
       <material name="dark_grey" />
     </visual>
     <collision>
-      <origin xyz="0.045157 0.069525 -0.021641" rpy="0 0 0" />
+      <origin xyz="0.045157 0.054525 -0.021641" rpy="0 0 0" />
       <geometry>
         <mesh filename="package://tcebot_description/meshes/left_wheel.stl"
           scale="0.001 0.001 0.001" />
@@ -48,14 +50,14 @@
     </collision>
   </link>
 
-  <link name="right_wheel">
+  <link name="right_wheel_link">
     <inertial>
-      <origin xyz="0.014689947615311807 1.9270939681514943e-07 -6.875961525952545e-07" rpy="0 0 0" />
-      <mass value="0.23341306478013937" />
+      <origin xyz="0.014689947615311793 1.9270939682208832e-07 -6.875961526091323e-07" rpy="0 0 0" />
+      <mass value="0.2334130647801394" />
       <inertia ixx="0.00016" iyy="9.6e-05" izz="9.6e-05" ixy="-0.0" iyz="0.0" ixz="0.0" />
     </inertial>
     <visual>
-      <origin xyz="-0.030621 0.069525 -0.021641" rpy="0 0 0" />
+      <origin xyz="-0.030621 0.054525 -0.021641" rpy="0 0 0" />
       <geometry>
         <mesh filename="package://tcebot_description/meshes/right_wheel.stl"
           scale="0.001 0.001 0.001" />
@@ -63,7 +65,7 @@
       <material name="dark_grey" />
     </visual>
     <collision>
-      <origin xyz="-0.030621 0.069525 -0.021641" rpy="0 0 0" />
+      <origin xyz="-0.030621 0.054525 -0.021641" rpy="0 0 0" />
       <geometry>
         <mesh filename="package://tcebot_description/meshes/right_wheel.stl"
           scale="0.001 0.001 0.001" />
@@ -71,49 +73,30 @@
     </collision>
   </link>
 
-  <link name="caster">
+  <link name="rplidar_link">
     <inertial>
-      <origin xyz="8.760371028013886e-06 -0.015006453046049681 -0.008779771570198129" rpy="0 0 0"/>
-      <mass value="0.02176904247885505"/>
-      <inertia ixx="1e-06" iyy="1e-06" izz="1e-06" ixy="-0.0" iyz="0.0" ixz="-0.0"/>
-    </inertial>
-    <visual>
-      <origin xyz="0.008206 -0.049407 -0.007659" rpy="0 0 0"/>
-      <geometry>
-       <mesh filename="package://tcebot_description/meshes/caster.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-      <material name="silver"/>
-    </visual>
-    <collision>
-      <origin xyz="0.008206 -0.049407 -0.007659" rpy="0 0 0"/>
-      <geometry>
-       <mesh filename="package://tcebot_description/meshes/caster.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-  </collision>
-  </link>
-
-  <link name="lidar">
-    <inertial>
-      <origin xyz="0.01253399240967995 0.034954225501993154 0.031144245322156733" rpy="0 0 0" />
+      <origin xyz="0.012533992409679966 0.034954225501993154 0.031144245322156733" rpy="0 0 0" />
       <mass value="0.5204475795482929" />
       <inertia ixx="0.00026" iyy="0.000181" izz="0.000381" ixy="3e-06" iyz="-2.3e-05" ixz="2e-06" />
     </inertial>
     <visual>
       <origin xyz="0.024795 0.052459 -0.139659" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://tcebot_description/meshes/lidar.stl" scale="0.001 0.001 0.001" />
+        <mesh filename="package://tcebot_description/meshes/lidar.stl"
+          scale="0.001 0.001 0.001" />
       </geometry>
       <material name="dark_grey" />
     </visual>
     <collision>
       <origin xyz="0.024795 0.052459 -0.139659" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://tcebot_description/meshes/lidar.stl" scale="0.001 0.001 0.001" />
+        <mesh filename="package://tcebot_description/meshes/lidar.stl"
+          scale="0.001 0.001 0.001" />
       </geometry>
     </collision>
   </link>
 
-  <link name="camera">
+  <link name="camera_link">
     <inertial>
       <origin xyz="-8.673617379884035e-18 -0.0015001643555897087 -3.9943743584958114e-07"
         rpy="0 0 0" />
@@ -123,50 +106,77 @@
     <visual>
       <origin xyz="0.008 0.091056 -0.138159" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://tcebot_description/meshes/camera.stl" scale="0.001 0.001 0.001" />
+        <mesh filename="package://tcebot_description/meshes/camera.stl"
+          scale="0.001 0.001 0.001" />
       </geometry>
       <material name="yellow" />
     </visual>
     <collision>
       <origin xyz="0.008 0.091056 -0.138159" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://tcebot_description/meshes/camera.stl" scale="0.001 0.001 0.001" />
+        <mesh filename="package://tcebot_description/meshes/camera.stl"
+          scale="0.001 0.001 0.001" />
       </geometry>
     </collision>
   </link>
 
-  <joint name="left_motor" type="continuous">
-    <origin xyz="-0.045157 -0.069525 0.021641" rpy="0 0 0" />
+  <link name="caster_link">
+    <inertial>
+      <origin xyz="8.760371028013886e-06 -0.015006453046049681 -0.008779771570198129" rpy="0 0 0" />
+      <mass value="0.02176904247885505" />
+      <inertia ixx="1e-06" iyy="1e-06" izz="1e-06" ixy="-0.0" iyz="0.0" ixz="-0.0" />
+    </inertial>
+    <visual>
+      <origin xyz="0.008206 -0.049407 -0.007659" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://tcebot_description/meshes/caster.stl"
+          scale="0.001 0.001 0.001" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.008206 -0.049407 -0.007659" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://tcebot_description/meshes/caster.stl"
+          scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="left_wheel_joint" type="continuous">
+    <origin xyz="-0.045157 -0.054525 0.021641" rpy="0 0 0" />
     <parent link="base_link" />
-    <child link="left_wheel" />
-    <axis xyz="0.1 0.0 0.0" />
+    <child link="left_wheel_link" />
+    <axis xyz="1.0 0.0 0.0" />
+    <dynamics damping="0.01" friction="0.0"/>
   </joint>
 
-  <joint name="right_motor" type="continuous">
-    <origin xyz="0.030621 -0.069525 0.021641" rpy="0 0 0" />
+  <joint name="right_wheel_joint" type="continuous">
+    <origin xyz="0.030621 -0.054525 0.021641" rpy="0 0 0" />
     <parent link="base_link" />
-    <child link="right_wheel" />
-    <axis xyz="0.1 0.0 0.0" />
+    <child link="right_wheel_link" />
+    <axis xyz="1.0 0.0 0.0" />
+    <dynamics damping="0.01" friction="0.0"/>
   </joint>
 
-  <joint name="rigid1" type="fixed">
+  <joint name="lidar_joint" type="fixed">
     <origin xyz="-0.024795 -0.052459 0.139659" rpy="0 0 0" />
     <parent link="base_link" />
-    <child link="lidar" />
+    <child link="rplidar_link" />
   </joint>
 
-  <joint name="rigid2" type="fixed">
+  <joint name="camera_joint" type="fixed">
     <origin xyz="-0.008 -0.091056 0.138159" rpy="0 0 0" />
     <parent link="base_link" />
-    <child link="camera" />
+    <child link="camera_link" />
   </joint>
 
-  <joint name="rigid3" type="fixed">
-    <origin xyz="-0.008206 0.049407 0.007659" rpy="0 0 0"/>
-    <parent link="base_link"/>
-    <child link="caster"/>
+  <joint name="caster_joint" type="fixed">
+    <origin xyz="-0.008206 0.049407 0.007659" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="caster_link" />
     <axis xyz="0 0 1" />
-    <dynamics damping="0.01" friction="0.0"/>
+    <dynamics damping="0.01" friction="0.0" />
   </joint>
 
 </robot>
