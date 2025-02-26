@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<!-- Various useful macros -->
+<robot name="xacro_properties" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Material colors -->
+  <xacro:property name="material_black">
+    <material name="black">
+      <color rgba="0.1 0.1 0.1 1"/>
+    </material>
+  </xacro:property>
+
+  <!-- Material macros -->
+  <xacro:macro name="material_black">
+    <visual>
+      <material>
+        <diffuse>0 0 0 1</diffuse>
+        <specular>${80/255} ${80/255} ${80/255} 1</specular>
+        <emissive>0 0 0 1</emissive>
+      </material>
+    </visual>
+  </xacro:macro>
+
+  <xacro:macro name="material_darkgray">
+    <visual>
+      <material>
+        <diffuse>${3/255} ${3/255} ${3/255} 1</diffuse>
+        <specular>0 0 0 1</specular>
+        <emissive>0 0 0 1</emissive>
+      </material>
+    </visual>
+  </xacro:macro>
+
+</robot>

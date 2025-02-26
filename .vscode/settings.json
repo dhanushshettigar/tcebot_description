@@ -1,0 +1,21 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/dhanush/Documents/test_ws/install/tcebot_sim/lib/python3.12/site-packages",
+        "/home/dhanush/Documents/test_ws/install/tcebot_gz/lib/python3.12/site-packages",
+        "/opt/ros/jazzy/lib/python3.12/site-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/dhanush/Documents/test_ws/install/tcebot_sim/lib/python3.12/site-packages",
+        "/home/dhanush/Documents/test_ws/install/tcebot_gz/lib/python3.12/site-packages",
+        "/opt/ros/jazzy/lib/python3.12/site-packages"
+    ],
+    "cSpell.words": [
+        "Dhanush",
+        "remappings",
+        "rplidar",
+        "rviz",
+        "tcebot",
+        "urdf",
+        "xacro"
+    ]
+}

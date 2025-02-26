@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="rplidar" params="gazebo">
+
+    <link name="rplidar_link">
+      <inertial>
+        <origin xyz="-5.58793539218172e-10 -3.618764437576268e-18 0.009999999999999981" rpy="0 0 0" />
+        <mass value="0.3082687791334984" />
+        <inertia ixx="5.8e-05" iyy="5.8e-05" izz="9.6e-05" ixy="-0.0" iyz="-0.0" ixz="0.0" />
+      </inertial>
+      <visual>
+        <origin xyz="0.0375 -0.0 -0.125" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://tcebot_description/meshes/lidar.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0.0375 -0.0 -0.125" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://tcebot_description/meshes/lidar.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="rplidar_joint" type="fixed">
+      <origin xyz="-0.0375 0.0 0.125" rpy="0 0 0" />
+      <parent link="base_link" />
+      <child link="rplidar_link" />
+    </joint>
+
+    <gazebo reference="rplidar_link">
+      <sensor name="sensor_ray_front" type="gpu_lidar">
+        <gz_frame_id>rplidar_link</gz_frame_id>
+        <topic>scan</topic>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>720</samples>
+              <resolution>1</resolution>
+              <min_angle>-3.14159265</min_angle>
+              <max_angle>3.14159265</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.20</min>
+            <max>12.0</max>
+            <resolution>0.01</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </ray>
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+        <update_rate>10.0</update_rate>
+      </sensor>
+    </gazebo>
+
+    <gazebo reference="rplidar_joint">
+      <preserveFixedJoint>true</preserveFixedJoint>
+    </gazebo>
+
+  </xacro:macro>
+</robot>
