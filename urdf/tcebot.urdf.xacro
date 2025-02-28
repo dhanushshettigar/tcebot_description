@@ -36,16 +36,24 @@
     </collision>
   </link>
 
-  <gazebo reference="base_link">
-    <xacro:material_darkgray />
-  </gazebo>
-
   <xacro:wheel_right gazebo="$(arg gazebo)" />
   <xacro:wheel_left gazebo="$(arg gazebo)" />
 
   <xacro:rplidar gazebo="$(arg gazebo)" />
 
-   <xacro:camera gazebo="$(arg gazebo)" />
+  <xacro:camera gazebo="$(arg gazebo)" />
+
+  <gazebo reference="base_link">
+    <xacro:material_lightgray />
+  </gazebo>
+
+  <gazebo reference="left_wheel_link">
+    <xacro:material_black />
+  </gazebo>
+
+  <gazebo reference="right_wheel_link">
+    <xacro:material_black />
+  </gazebo>
 
   <gazebo>
     <plugin
