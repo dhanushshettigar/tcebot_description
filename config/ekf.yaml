@@ -1,0 +1,19 @@
+ekf_filter_node:
+  ros__parameters:
+    frequency: 30.0  # Hz
+
+    # IMU topic
+    imu0: /imu
+    imu0_config: [False, False, False,  # x, y, z position (not needed)
+                  False, False, False,  # x, y, z velocity (not needed)
+                  True, True, True,     # x, y, z orientation
+                  False, False, True]   # x, y, z angular velocity (only yaw needed)
+    imu0_differential: false
+    imu0_queue_size: 10
+
+    two_d_mode: true  # Since it's a ground robot
+    publish_tf: true
+    map_frame: map
+    odom_frame: odom
+    base_link_frame: base_link
+    world_frame: odom

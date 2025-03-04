@@ -1,79 +1,95 @@
+import os
+
 from ament_index_python.packages import get_package_share_directory
-
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
-from launch.substitutions import Command, PathJoinSubstitution
-from launch.substitutions.launch_configuration import LaunchConfiguration
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, TimerAction
 from launch.conditions import IfCondition
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
+from launch.substitutions import LaunchConfiguration
 
-
-ARGUMENTS = [
-    DeclareLaunchArgument('use_sim_time', default_value='true',
-                          choices=['true', 'false'],
-                          description='Use simulation time'),
-    DeclareLaunchArgument('robot_name', default_value='tcebot',
-                          description='Robot name'),
-    DeclareLaunchArgument('namespace', default_value='',
-                          description='Robot namespace'),
-    DeclareLaunchArgument('launch_rviz', default_value='false',
-                          choices=['true', 'false'],
-                          description='Launch RViz'),
-]
-
+# Get package share directories
+pkg_tcebot_bringup = get_package_share_directory('tcebot_bringup')
+pkg_tcebot_control = get_package_share_directory('tcebot_control')
+pkg_tcebot_description = get_package_share_directory('tcebot_description')
+pkg_mpu6050driver = get_package_share_directory('mpu6050driver')
 
 def generate_launch_description():
-    pkg_tcebot_description = get_package_share_directory('tcebot_description')
-    xacro_file = PathJoinSubstitution([pkg_tcebot_description, 'urdf', 'tcebot.urdf.xacro'])
-    rviz_config_file = PathJoinSubstitution([pkg_tcebot_description, 'rviz', 'config.rviz'])
-    
-    namespace = LaunchConfiguration('namespace')
-    launch_rviz = LaunchConfiguration('launch_rviz')
+    # Declare launch arguments
+    camera_arg = DeclareLaunchArgument(
+        'include_camera', default_value='True', description='Include camera launch.'
+    )
+    camera = LaunchConfiguration('include_camera')
 
-    robot_state_publisher = Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        name='robot_state_publisher',
-        output='screen',
-        parameters=[
-            {'use_sim_time': LaunchConfiguration('use_sim_time')},
-            {'robot_description': Command(['xacro', ' ', xacro_file, ' ', 'namespace:=', namespace])},
-        ],
-        remappings=[
-            ('/tf', 'tf'),
-            ('/tf_static', 'tf_static')
-        ]
+    rplidar_arg = DeclareLaunchArgument(
+        'include_rplidar', default_value='True', description='Include rplidar launch.'
+    )
+    rplidar = LaunchConfiguration('include_rplidar')
+
+    # Include tcebot_description launch file
+    include_tcebot_description = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(pkg_tcebot_description, 'launch', 'robot_description.launch.py'),
+        ),
+        launch_arguments={'rsp': 'True'}.items(),
     )
 
-    joint_state_publisher = Node(
-        package='joint_state_publisher',
-        executable='joint_state_publisher',
-        name='joint_state_publisher',
-        output='screen',
-        parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
-        remappings=[
-            ('/tf', 'tf'),
-            ('/tf_static', 'tf_static')
-        ]
+    # Include tcebot_control launch file
+    include_tcebot_control = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(pkg_tcebot_control, 'launch', 'tcebot_control.launch.py'),
+        )
     )
 
-    rviz2 = Node(
-        package='rviz2',
-        executable='rviz2',
-        name='rviz2',
-        output='screen',
-        arguments=['-d', rviz_config_file],
-        parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
-        remappings=[
-            ('/tf', 'tf'),
-            ('/tf_static', 'tf_static')
-        ],
-        condition=IfCondition(launch_rviz),  # Launch RViz only if 'launch_rviz' is true
+    # Include RPLiDAR launch file
+    include_rplidar = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(pkg_tcebot_bringup, 'launch', 'rplidar.launch.py'),
+        ),
+        launch_arguments={"serial_port": '/dev/ttyUSB0'}.items(),
+        condition=IfCondition(rplidar),
     )
 
-    ld = LaunchDescription(ARGUMENTS)
-    ld.add_action(robot_state_publisher)
-    ld.add_action(joint_state_publisher)
-    ld.add_action(rviz2)
+    # Include camera launch file
+    include_camera = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(pkg_tcebot_bringup, 'launch', 'camera.launch.py'),
+        ),
+        condition=IfCondition(camera),
+    )
 
-    return ld
+    # Start MPU6050 driver first
+    include_mpu6050_driver = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(pkg_mpu6050driver, 'launch', 'mpu6050driver_launch.py'),
+        )
+    )
+
+    # Delay robot control and sensors to ensure IMU is publishing
+    tcebot_control_timer = TimerAction(period=5.0, actions=[include_tcebot_control])
+    rplidar_timer = TimerAction(period=3.0, actions=[include_rplidar])
+    camera_timer = TimerAction(period=3.0, actions=[include_camera])
+
+    # Include robot_localization (EKF) to generate /odom
+    ekf_config_path = os.path.join(pkg_tcebot_bringup, 'config', 'ekf.yaml')
+
+    ekf_localization = Node(
+        package='robot_localization',
+        executable='ekf_node',
+        name='ekf_filter_node',
+        output='screen',
+        parameters=[ekf_config_path],
+    )
+
+    ekf_timer = TimerAction(period=7.0, actions=[ekf_localization])  # Start EKF after IMU is running
+
+    return LaunchDescription([
+        include_tcebot_description,
+        include_mpu6050_driver,  # Start MPU6050 first
+        tcebot_control_timer,
+        camera_arg,
+        camera_timer,
+        rplidar_arg,
+        rplidar_timer,
+        ekf_timer,  # Start EKF after IMU is publishing
+    ])
