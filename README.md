@@ -29,5 +29,10 @@ ros2 launch tcebot_description robot_description.launch.py
 Ensure the following dependencies are installed:
 
 ```bash
-sudo apt install ros-jazzy-xacro
+sudo apt update && sudo apt install -y \
+    ros-jazzy-robot-state-publisher \
+    ros-jazzy-joint-state-publisher \
+    ros-jazzy-joint-state-publisher-gui \
+    ros-jazzy-xacro \
+    ros-jazzy-rviz2
 ```
