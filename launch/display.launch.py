@@ -22,6 +22,7 @@ ARGUMENTS = [
 def generate_launch_description():
     pkg_tcebot_description = get_package_share_directory('tcebot_description')
     xacro_file = PathJoinSubstitution([pkg_tcebot_description, 'urdf', 'tcebot.urdf.xacro'])
+    rviz_config_file = PathJoinSubstitution([pkg_tcebot_description, 'rviz', 'config.rviz'])
     
     namespace = LaunchConfiguration('namespace')
 
@@ -52,8 +53,28 @@ def generate_launch_description():
         ]
     )
 
+    joint_state_publisher_gui_node = Node(
+       package="joint_state_publisher_gui",
+       executable="joint_state_publisher_gui"
+    )
+
+    rviz2 = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        output='screen',
+        arguments=['-d', rviz_config_file],
+        parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
+        remappings=[
+            ('/tf', 'tf'),
+            ('/tf_static', 'tf_static')
+        ],
+    )
+
     ld = LaunchDescription(ARGUMENTS)
     ld.add_action(robot_state_publisher)
     ld.add_action(joint_state_publisher)
-    
+    ld.add_action(rviz2)
+    ld.add_action(joint_state_publisher_gui_node)
+
     return ld
